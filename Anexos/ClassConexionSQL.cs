@@ -33,10 +33,10 @@ namespace nsConexionSQL
 			// 2) Obtener un solo registro
 			var row = db.ObtenerData("SELECT TOP 1 * FROM Clientes");
 			if (row != null)
-				MessageBox.Show("Cliente encontrado: "+ row["Nombre"]);
+				MessageBox.Show("Cliente encontrado: "+ row["clie_nombre"]);
 
 			// 3) Ejecutar un comando (INSERT, UPDATE o DELETE)
-			int filas = db.EjecutarComandoSQL("UPDATE Clientes SET Nombre='Juan' WHERE ClienteID=1");
+			int filas = db.EjecutarComandoSQL("UPDATE Clientes SET Nombre='Juan' WHERE clie_id=1");
 			MessageBox.Show("Filas afectadas: "+filas);
 
 			// 4) Ejecutar escalar (ejemplo COUNT)
