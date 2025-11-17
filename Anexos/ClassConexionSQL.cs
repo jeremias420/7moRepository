@@ -42,6 +42,17 @@ namespace nsConexionSQL
 			// 4) Ejecutar escalar (ejemplo COUNT)
 			var total = db.EjecutarEscalar("SELECT COUNT(*) FROM Clientes");
 			MessageBox.Show("Cantidad de clientes: "+ total);
+
+			// 5) obtener mas de un registro
+			var tabla = db.ObtenerTabla("exec sp_nombreSP");		
+			if (tabla != null && tabla.Rows.Count > 0)
+			{
+			    foreach (DataRow row in tabla.Rows)
+			    {
+			        MessageBox.Show(row["clie_nombre"].ToString());
+			    }
+			}			
+
 		}
 		
 
@@ -92,6 +103,25 @@ namespace nsConexionSQL
 			catch (Exception ex)
 			{
 				MessageBox.Show("Error al obtener datos:\n"+ex.Message);
+				return null;
+			}
+		}
+		
+		public DataTable ObtenerTabla(string consulta)
+		{
+			try
+			{
+				using (var conexion = new SqlConnection(_connectionString))
+				using (var adaptador = new SqlDataAdapter(consulta, conexion))
+				{
+					var dt = new DataTable();
+					adaptador.Fill(dt);
+					return dt;
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Error al obtener datos:\n" + ex.Message);
 				return null;
 			}
 		}
